@@ -1,12 +1,10 @@
 <?php
     
-    namespace App;
+    namespace App\Models;
     
-    use App\Models\Question;
     use Illuminate\Foundation\Auth\User as Authenticatable;
     use Illuminate\Notifications\Notifiable;
-    use Illuminate\Support\Str;
-
+    
     class User extends Authenticatable
     {
         use Notifiable;
@@ -43,9 +41,5 @@
             return $this->hasMany(Question::class);
         }
         
-        public function setTitleAttribute($value)
-        {
-            $this->attributes['title'] = $value;
-            $this->attributes['slug'] = Str::slug($value);
-        }
+        
     }
