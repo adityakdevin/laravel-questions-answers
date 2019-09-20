@@ -41,5 +41,9 @@
             return $this->hasMany(Question::class);
         }
         
+        public function getUrlAttribute()
+        {
+            return "#";
+        }
         
     }
