@@ -4,7 +4,7 @@
     
     use Illuminate\Database\Eloquent\Model;
     use Illuminate\Support\Str;
-
+    
     class Question extends Model
     {
         protected $fillable = ['title', 'body'];
@@ -24,9 +24,20 @@
         {
             return route('questions.show', $this->id);
         }
-    
+        
         public function getCreateDateAttribute()
         {
             return $this->created_at->diffForHumans();
+        }
+        
+        public function getStatusAttribute()
+        {
+            if ($this->answers > 0) {
+                if ($this->best_answer_id) {
+                    return "answered-accepted";
+                }
+                return "answered";
+            }
+            return "unanswered";
         }
     }

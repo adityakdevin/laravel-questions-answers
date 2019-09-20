@@ -26,7 +26,7 @@
          */
         public function create()
         {
-            //
+            return view("questions.create");
         }
         
         /**

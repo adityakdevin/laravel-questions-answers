@@ -18,6 +18,25 @@
     .vote, .answer {
         width: 60px;
         height: 60px;
-        border: 1px solid #ff0000;
+    }
+
+    .status {
+        &.unanswered {
+            border: none;
+        }
+
+        &.answered {
+            border: 1px solid $green;
+            color: $green;
+        }
+
+        &.answered-accepted {
+            background: $green;
+            color: $white;
+        }
+    }
+
+    .view {
+        margin-top: 10px;
     }
 }
