@@ -9,6 +9,11 @@
     
     class QuestionsController extends Controller
     {
+        public function __construct()
+        {
+            $this->middleware('auth', ['except' => ['index', 'show']]);
+        }
+        
         /**
          * Display a listing of the resource.
          *
@@ -51,7 +56,7 @@
         public function show(Question $question)
         {
             $question->increment('views');
-            return view('questions.show',compact('question'));
+            return view('questions.show', compact('question'));
         }
         
         /**
@@ -59,9 +64,14 @@
          *
          * @param Question $question
          * @return Response
+         * @throws \Illuminate\Auth\Access\AuthorizationException
          */
         public function edit(Question $question)
         {
+            /*if (\Gate::denies('update-question', $question)) {
+                abort('403',"Access Denied.");
+            }*/
+            $this->authorize('update', $question);
             return view('questions.edit', compact('question'));
         }
         
@@ -71,9 +81,15 @@
          * @param Request $request
          * @param Question $question
          * @return Response
+         * @throws \Illuminate\Auth\Access\AuthorizationException
          */
         public function update(AskQuestionRequest $request, Question $question)
         {
+            /*if (\Gate::denies('update-question', $question)) {
+                abort('403',"Access Denied.");
+            }*/
+            
+            $this->authorize('update', $question);
             $question->update($request->only('title', 'body'));
             return redirect()->route('questions.index')->with('success', 'Your questions has been updated.');
         }
@@ -83,9 +99,14 @@
          *
          * @param Question $question
          * @return Response
+         * @throws \Exception
          */
         public function destroy(Question $question)
         {
+            /*if (\Gate::denies('delete-question', $question)) {
+                abort('403',"Access Denied.");
+            }*/
+            $this->authorize('delete', $question);
             $question->delete();
             return redirect()->route('questions.index')->with('success', 'Your question has been deleted.');
         }
