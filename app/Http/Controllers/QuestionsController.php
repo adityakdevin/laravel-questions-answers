@@ -38,8 +38,8 @@
          */
         public function store(AskQuestionRequest $request)
         {
-            $request->user()->questions()->create($request->only('title','body'));
-            return redirect()->route('questions.index')->with('success','Your questions has been submitted.');
+            $request->user()->questions()->create($request->only('title', 'body'));
+            return redirect()->route('questions.index')->with('success', 'Your questions has been submitted.');
         }
         
         /**
@@ -50,7 +50,8 @@
          */
         public function show(Question $question)
         {
-            //
+            $question->increment('views');
+            return view('questions.show',compact('question'));
         }
         
         /**
@@ -61,7 +62,7 @@
          */
         public function edit(Question $question)
         {
-            return  view('questions.edit',compact('question'));
+            return view('questions.edit', compact('question'));
         }
         
         /**
@@ -73,8 +74,8 @@
          */
         public function update(AskQuestionRequest $request, Question $question)
         {
-            $question->update($request->only('title','body'));
-            return redirect()->route('questions.index')->with('success','Your questions has been updated.');
+            $question->update($request->only('title', 'body'));
+            return redirect()->route('questions.index')->with('success', 'Your questions has been updated.');
         }
         
         /**
@@ -85,6 +86,7 @@
          */
         public function destroy(Question $question)
         {
-            //
+            $question->delete();
+            return redirect()->route('questions.index')->with('success', 'Your question has been deleted.');
         }
     }
