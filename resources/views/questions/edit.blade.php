@@ -13,7 +13,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        @include('layouts._message')
+                        @include('layouts._messages')
                         <form action="{{ route('questions.update',$question->id) }}" method="post">
                             @method('PUT')
                             @include('questions._form',['buttonText'=>'Update this question'])
