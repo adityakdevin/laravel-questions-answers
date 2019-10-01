@@ -10,6 +10,6 @@
             "title" => rtrim($faker->sentence(rand(5, 8)), "."),
             "body" => $faker->paragraph(rand(3, 9), true),
             "views" => rand(0, 10),
-            "votes" => rand(-3, 10),
+            //"votes_count" => rand(-3, 10),
         ];
     });

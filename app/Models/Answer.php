@@ -1,12 +1,15 @@
 <?php
     
     namespace App\Models;
-    
     use Illuminate\Database\Eloquent\Model;
     
     class Answer extends Model
     {
+        use VotableTrait;
+        
         protected $fillable = ['body', 'user_id'];
+        
+        protected $appends = ['created_date', 'body_html', 'is_best'];
         
         public function question()
         {
@@ -30,7 +33,8 @@
             static::created(function ($answer) {
                 $answer->question->increment('answers_count');
             });
-            static::deleted(function ($answer){
+            
+            static::deleted(function ($answer) {
                 $answer->question->decrement('answers_count');
             });
         }
@@ -39,8 +43,19 @@
         {
             return $this->created_at->diffForHumans();
         }
+        
         public function getStatusAttribute()
         {
-            return $this->id == $this->question->best_answer_id ? 'vote-accepted' : '';
+            return $this->isBest() ? 'vote-accepted' : '';
+        }
+        
+        public function getIsBestAttribute()
+        {
+            return $this->isBest();
+        }
+        
+        public function isBest()
+        {
+            return $this->id === $this->question->best_answer_id;
         }
     }

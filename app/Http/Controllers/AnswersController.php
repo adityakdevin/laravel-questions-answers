@@ -74,4 +74,16 @@ class AnswersController extends Controller
         $answer->delete();
         return back()->with('success','Your Answer has been removed.');
     }
+    
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Answer $answer
+     * @return void
+     */
+    public function accept(Answer $answer)
+    {
+        return back()->with('success','Your Answer has been accepted.');
+    }
+    
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAnswersTable extends Migration
+class CreateFavoritesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateAnswersTable extends Migration
      */
     public function up()
     {
-        Schema::create('answers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedBigInteger('question_id');
-            $table->unsignedBigInteger('user_id');
-            $table->text('body');
-            $table->integer('votes_count')->default(0);
+        Schema::create('favorites', function (Blueprint $table) {
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('question_id');
+            $table->unique(['user_id','question_id']);
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateAnswersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('answers');
+        Schema::dropIfExists('favorites');
     }
 }
